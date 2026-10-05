@@ -9,12 +9,13 @@ void main() {
 
     expect(find.text('LUXE'), findsOneWidget);
     expect(find.text('Get Started'), findsOneWidget);
-    expect(find.text('Welcome in.'), findsNothing);
+    expect(find.text('Create Account'), findsNothing);
 
     await tester.pump(const Duration(seconds: 5));
     await tester.pumpAndSettle();
 
     expect(find.text('Get Started'), findsNothing);
-    expect(find.text('Welcome in.'), findsOneWidget);
+    expect(find.text('Create Account'), findsOneWidget);
+    expect(find.text('Register'), findsOneWidget);
   });
 }
