@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'screens/category_screen.dart';
 import 'screens/forgot_password_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
+import 'screens/product_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/splash_screen.dart';
 
@@ -29,6 +31,9 @@ class LuxeApp extends StatelessWidget {
         '/login': (_) => const LoginScreen(),
         '/forgot-password': (_) => const ForgotPasswordScreen(),
         '/home': (_) => const HomeScreen(),
+        // Detail pages: the category or product is passed as route arguments.
+        '/category': (_) => const CategoryScreen(),
+        '/product': (_) => const ProductScreen(),
       },
     );
   }
