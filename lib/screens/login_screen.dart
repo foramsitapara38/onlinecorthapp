@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
-  final _name = TextEditingController();
+class _LoginScreenState extends State<LoginScreen> {
   final _email = TextEditingController();
   final _password = TextEditingController();
-  final _confirm = TextEditingController();
 
   @override
   void dispose() {
-    _name.dispose();
     _email.dispose();
     _password.dispose();
-    _confirm.dispose();
     super.dispose();
   }
 
@@ -26,17 +22,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     Navigator.of(context).pushReplacementNamed('/home');
   }
 
-  void _register() {
+  void _login() {
     _openShop();
   }
 
-  InputDecoration _line(String hint) {
+  InputDecoration _line() {
     return InputDecoration(
-      hintText: hint,
-      hintStyle: TextStyle(
-        color: Colors.grey.shade500,
-        fontSize: 16,
-      ),
+      isDense: true,
       enabledBorder: UnderlineInputBorder(
         borderSide: BorderSide(color: Colors.grey.shade400),
       ),
@@ -74,42 +66,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 28),
-              const Text(
-                'Create Account',
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w700,
+              const SizedBox(height: 48),
+              const Center(
+                child: Text(
+                  'Welcome Back!!',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800,
+                  ),
                 ),
               ),
-              const SizedBox(height: 28),
-              TextField(
-                controller: _name,
-                textCapitalization: TextCapitalization.words,
-                decoration: _line('Full Name'),
+              const SizedBox(height: 36),
+              const Text(
+                'Email Address',
+                style: TextStyle(fontSize: 15),
               ),
-              const SizedBox(height: 12),
               TextField(
                 controller: _email,
                 keyboardType: TextInputType.emailAddress,
-                decoration: _line('Email Address'),
+                decoration: _line(),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 20),
+              const Text(
+                'Password',
+                style: TextStyle(fontSize: 15),
+              ),
               TextField(
                 controller: _password,
                 obscureText: true,
-                decoration: _line('Password'),
+                decoration: _line(),
               ),
               const SizedBox(height: 12),
-              TextField(
-                controller: _confirm,
-                obscureText: true,
-                decoration: _line('Confirm Password'),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed('/forgot-password');
+                },
+                child: const Text(
+                  'Forgot Password?',
+                  style: TextStyle(fontSize: 14),
+                ),
               ),
-              const SizedBox(height: 36),
+              const SizedBox(height: 28),
               Center(
                 child: FilledButton(
-                  onPressed: _register,
+                  onPressed: _login,
                   style: FilledButton.styleFrom(
                     backgroundColor: const Color(0xFFD4C3DC),
                     foregroundColor: Colors.black,
@@ -122,7 +122,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   child: const Text(
-                    'Register',
+                    'Login',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
@@ -134,10 +134,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Center(
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushReplacementNamed('/login');
+                    Navigator.of(context).pushReplacementNamed('/register');
                   },
                   child: const Text(
-                    'Already have an account? Login',
+                    'Create Account',
                     style: TextStyle(fontSize: 14),
                   ),
                 ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'screens/forgot_password_screen.dart';
 import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/splash_screen.dart';
 
@@ -24,6 +26,8 @@ class LuxeApp extends StatelessWidget {
       routes: {
         '/': (_) => const SplashScreen(),
         '/register': (_) => const RegisterScreen(),
+        '/login': (_) => const LoginScreen(),
+        '/forgot-password': (_) => const ForgotPasswordScreen(),
         '/home': (_) => const HomeScreen(),
       },
     );
