@@ -74,7 +74,7 @@ class ProfileScreen extends StatelessWidget {
         _Shortcut(
           icon: Icons.location_on_outlined,
           title: 'Saved Addresses',
-          onTap: () {},
+          onTap: () => Navigator.of(context).pushNamed('/address'),
         ),
         _Shortcut(
           icon: Icons.settings_outlined,

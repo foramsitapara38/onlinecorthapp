@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 
-/// The LUXE wordmark with the close (X) button, shared by the shop pages.
+/// The LUXE wordmark with an optional back arrow (left) and close (X, right).
 class LuxeHeader extends StatelessWidget {
-  const LuxeHeader({super.key, this.onClose, this.showClose = true});
+  const LuxeHeader({
+    super.key,
+    this.onBack,
+    this.onClose,
+    this.showClose = true,
+  });
 
+  final VoidCallback? onBack;
   final VoidCallback? onClose;
   final bool showClose;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 10, 8, 4),
+      padding: EdgeInsets.fromLTRB(onBack == null ? 20 : 8, 10, 8, 4),
       child: Row(
         children: [
+          if (onBack != null)
+            IconButton(
+              onPressed: onBack,
+              icon: const Icon(Icons.arrow_back),
+            ),
           const Expanded(
             child: Text(
               'LUXE',

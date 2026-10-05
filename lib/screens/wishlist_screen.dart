@@ -44,8 +44,8 @@ class WishlistScreen extends StatelessWidget {
                   child: Text(
                     'Wishlist',
                     style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w800,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
                       color: kInk,
                     ),
                   ),
@@ -85,11 +85,13 @@ class WishlistScreen extends StatelessWidget {
                   crossAxisCount: 2,
                   mainAxisSpacing: 20,
                   crossAxisSpacing: 16,
-                  childAspectRatio: 0.78,
+                  childAspectRatio: 0.72,
                 ),
                 itemBuilder: (_, index) => ProductCard(
                   product: liked[index],
                   heart: HeartPlacement.besideName,
+                  priceColor: kInk, // black price, as in the design
+                  showOldPrice: false,
                 ),
               );
             },

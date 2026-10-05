@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../models/address.dart';
 import '../models/catalog.dart';
 
 /// The app's small in-memory "brain": what the user liked and what is in the
@@ -63,3 +64,8 @@ class ShopStore extends ChangeNotifier {
 /// Lets any page ask the home shell to open one of its bottom tabs.
 /// 0 = Shop, 1 = Wishlist, 2 = Categories, 3 = Bag, 4 = Profile.
 final ValueNotifier<int> activeTab = ValueNotifier<int>(0);
+
+/// The delivery address saved from the Select Address page.
+/// null means "we still need an address" - the bag checks this before
+/// placing an order.
+final ValueNotifier<Address?> savedAddress = ValueNotifier<Address?>(null);

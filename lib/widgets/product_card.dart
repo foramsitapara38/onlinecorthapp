@@ -21,10 +21,18 @@ class ProductCard extends StatelessWidget {
     super.key,
     required this.product,
     this.heart = HeartPlacement.onPhoto,
+    this.priceColor = kPrice,
+    this.showOldPrice = true,
   });
 
   final Product product;
   final HeartPlacement heart;
+
+  /// Prices are pink on the shop grids and black on the wishlist.
+  final Color priceColor;
+
+  /// The wishlist only shows one clean price.
+  final bool showOldPrice;
 
   void _open(BuildContext context) {
     Navigator.of(context).pushNamed('/product', arguments: product);
@@ -56,14 +64,17 @@ class ProductCard extends StatelessWidget {
           const SizedBox(height: 8),
           if (nameBesideHeart) ...[
             Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Expanded(
+                // Flexible (not Expanded) so the heart stays glued to the
+                // name, while long names still fade with an ellipsis.
+                Flexible(
                   child: Text(
                     product.name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      fontSize: 14,
+                      fontSize: 15,
                       fontWeight: FontWeight.w700,
                       color: kInk,
                     ),
@@ -89,13 +100,13 @@ class ProductCard extends StatelessWidget {
             children: [
               Text(
                 rupees(product.price),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
-                  color: kPrice,
+                  color: priceColor,
                 ),
               ),
-              if (product.oldPrice != null) ...[
+              if (showOldPrice && product.oldPrice != null) ...[
                 const SizedBox(width: 6),
                 Text(
                   rupees(product.oldPrice!),

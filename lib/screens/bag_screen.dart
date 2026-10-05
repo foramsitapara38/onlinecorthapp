@@ -10,7 +10,14 @@ import '../widgets/shop_picture.dart';
 class BagScreen extends StatelessWidget {
   const BagScreen({super.key});
 
+  /// Checkout needs an address first: with none saved we open the
+  /// Select Address page, otherwise the order goes through.
   void _checkout(BuildContext context) {
+    if (savedAddress.value == null) {
+      Navigator.of(context).pushNamed('/address');
+      return;
+    }
+
     final store = ShopStore.instance;
     store.clearBag();
 
