@@ -6,7 +6,7 @@ import '../state/shop_store.dart';
 import '../widgets/luxe_header.dart';
 import '../widgets/shop_picture.dart';
 
-/// Third bottom tab: the shopping bag with quantities and the bill.
+/// Fourth bottom tab: the shopping bag with quantities and the bill.
 class BagScreen extends StatelessWidget {
   const BagScreen({super.key});
 

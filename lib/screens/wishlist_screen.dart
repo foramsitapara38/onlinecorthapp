@@ -6,8 +6,22 @@ import '../widgets/luxe_header.dart';
 import '../widgets/product_card.dart';
 
 /// First bottom tab: everything the user tapped the heart on.
+///
+/// Layout matches the design: LUXE + X on top, then a back arrow with the
+/// centred "Wishlist" title, then a two column grid of saved products.
 class WishlistScreen extends StatelessWidget {
   const WishlistScreen({super.key});
+
+  /// X closes the shop, exactly like on the home page.
+  void _closeShop(BuildContext context) {
+    activeTab.value = 0;
+    Navigator.of(context).pushReplacementNamed('/login');
+  }
+
+  /// Back arrow returns to the Shop tab.
+  void _goBack() {
+    activeTab.value = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,16 +30,30 @@ class WishlistScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const LuxeHeader(showClose: false),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(20, 4, 20, 16),
-          child: Text(
-            'My Wishlist',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w800,
-              color: kInk,
-            ),
+        LuxeHeader(onClose: () => _closeShop(context)),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(8, 4, 20, 16),
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: _goBack,
+                icon: const Icon(Icons.arrow_back),
+              ),
+              const Expanded(
+                child: Center(
+                  child: Text(
+                    'Wishlist',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                      color: kInk,
+                    ),
+                  ),
+                ),
+              ),
+              // Same width as the arrow, so the title stays truly centred.
+              const SizedBox(width: 48),
+            ],
           ),
         ),
         Expanded(
@@ -55,11 +83,14 @@ class WishlistScreen extends StatelessWidget {
                 itemCount: liked.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  mainAxisSpacing: 18,
-                  crossAxisSpacing: 14,
-                  childAspectRatio: 0.62,
+                  mainAxisSpacing: 20,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 0.78,
                 ),
-                itemBuilder: (_, index) => ProductCard(product: liked[index]),
+                itemBuilder: (_, index) => ProductCard(
+                  product: liked[index],
+                  heart: HeartPlacement.besideName,
+                ),
               );
             },
           ),

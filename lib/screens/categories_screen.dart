@@ -35,7 +35,7 @@ class CategoriesScreen extends StatelessWidget {
               crossAxisCount: 2,
               mainAxisSpacing: 16,
               crossAxisSpacing: 14,
-              childAspectRatio: 0.86,
+              childAspectRatio: 0.7,
             ),
             itemBuilder: (_, index) {
               final category = shopCategories[index];

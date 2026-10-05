@@ -100,7 +100,7 @@ class _ProductScreenState extends State<ProductScreen> {
                               ),
                               icon: Icon(
                                 liked ? Icons.favorite : Icons.favorite_border,
-                                color: liked ? kPrice : kInk,
+                                color: liked ? kInk : kMuted,
                               ),
                             );
                           },

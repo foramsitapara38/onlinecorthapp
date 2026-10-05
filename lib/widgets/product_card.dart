@@ -5,12 +5,26 @@ import '../models/catalog.dart';
 import '../state/shop_store.dart';
 import 'shop_picture.dart';
 
-/// One product inside a grid: picture, wishlist heart, name and price.
-/// Tapping it opens the product page.
+/// Where the little heart sits on a product card.
+enum HeartPlacement {
+  /// Floating on the picture - used by the home grid.
+  onPhoto,
+
+  /// Next to the product name - used by the wishlist.
+  besideName,
+}
+
+/// One product in a grid: picture, wishlist heart, name and price.
+/// Tapping anywhere but the heart opens the product page.
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key, required this.product});
+  const ProductCard({
+    super.key,
+    required this.product,
+    this.heart = HeartPlacement.onPhoto,
+  });
 
   final Product product;
+  final HeartPlacement heart;
 
   void _open(BuildContext context) {
     Navigator.of(context).pushNamed('/product', arguments: product);
@@ -18,6 +32,8 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nameBesideHeart = heart == HeartPlacement.besideName;
+
     return InkWell(
       borderRadius: BorderRadius.circular(10),
       onTap: () => _open(context),
@@ -28,22 +44,47 @@ class ProductCard extends StatelessWidget {
             child: Stack(
               children: [
                 ShopPicture(picture: product.picture),
-                Positioned(top: 6, right: 6, child: _HeartButton(product: product)),
+                if (!nameBesideHeart)
+                  Positioned(
+                    top: 6,
+                    right: 6,
+                    child: _HeartButton(product: product, onPhoto: true),
+                  ),
               ],
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            product.name,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: kInk,
+          if (nameBesideHeart) ...[
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    product.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: kInk,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 6),
+                _HeartButton(product: product, onPhoto: false),
+              ],
             ),
-          ),
-          const SizedBox(height: 3),
+            const SizedBox(height: 4),
+          ] else
+            Text(
+              product.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: kInk,
+              ),
+            ),
           Row(
             children: [
               Text(
@@ -73,11 +114,13 @@ class ProductCard extends StatelessWidget {
   }
 }
 
-/// Small round heart that adds or removes the product from the wishlist.
+/// Small heart that adds or removes the product from the wishlist.
+/// [onPhoto] gives it the white round background used over pictures.
 class _HeartButton extends StatelessWidget {
-  const _HeartButton({required this.product});
+  const _HeartButton({required this.product, required this.onPhoto});
 
   final Product product;
+  final bool onPhoto;
 
   @override
   Widget build(BuildContext context) {
@@ -90,15 +133,17 @@ class _HeartButton extends StatelessWidget {
         return GestureDetector(
           onTap: () => store.toggleWishlist(product),
           child: Container(
-            padding: const EdgeInsets.all(5),
-            decoration: const BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.92),
-              shape: BoxShape.circle,
-            ),
+            padding: onPhoto ? const EdgeInsets.all(5) : EdgeInsets.zero,
+            decoration: onPhoto
+                ? BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.92),
+                    shape: BoxShape.circle,
+                  )
+                : null,
             child: Icon(
               liked ? Icons.favorite : Icons.favorite_border,
-              size: 18,
-              color: liked ? kPrice : kInk,
+              size: onPhoto ? 18 : 19,
+              color: liked ? kInk : kMuted,
             ),
           ),
         );
